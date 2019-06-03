@@ -6,13 +6,13 @@ import pymysql
 from infoParser import getInfo
 
 # connect to mysql service
-db = pymysql.connect(
-    'localhost',
-    'root',
-    'robocup3d',
-    'robocup3d',
-    charset='utf8mb4'
-).cursor()
+# db = pymysql.connect(
+#     'localhost',
+#     'root',
+#     'robocup3d',
+#     'robocup3d',
+#     charset='utf8mb4'
+# ).cursor()
 # db = pymysql.connect(
 #     'localhost',
 #     'root',
@@ -29,10 +29,16 @@ oppoteams.remove('__pycache__')
 random.shuffle(oppoteams)
 print('There are', len(oppoteams), 'teams')
 print(*oppoteams, sep='\n')
-result = {
+
+if 'result.txt' in os.listdir('.'):
+    lines = ''.join([_ for _ in open('result.txt')])
+    result = eval(lines)
+else:
+    result = {
     # teamname: times, win, lose, draw
-    k: [0, 0, 0, 0] for k in oppoteams
-}
+        k: [0, 0, 0, 0] for k in oppoteams
+    }
+
 serverHost = 'localhost'
 
 # db.execute("insert into student values(95002, '張三', '男', 20, 'CS')")
@@ -68,8 +74,7 @@ def match():
         print('finished, result is {} : {}'.format(lscore, rscore))
 
         # TODO: ADD SQL SENTENCES HERE
-        db.execute("update automatch ")
+        # db.execute("update automatch ")
 
         with open('result.txt', 'w') as f:
-            for k, v in enumerate(result):
-                print(k, *v, file=f)
+            print(repr(result), file=f)
