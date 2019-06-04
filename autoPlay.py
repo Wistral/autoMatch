@@ -19,7 +19,7 @@ except Exception as e:
     print('ERROR when connect to SQL server!')
     exit(1)
 
-print('connect to sql server successfully!')
+print('connect to SQL server successfully!')
 # db = pymysql.connect(
 #     'localhost',
 #     'root',
@@ -53,8 +53,8 @@ serverHost = 'localhost'
 
 
 def match():
-    print('run match')
     for oppo in oppoteams:
+        print('==============================================')
         print('running task: '+ourTeam+' vs '+oppo+'......')
         os.system('./full-match.sh {} {} {} {} >/dev/null 2>&1'.format(
             ourTeam,
@@ -62,7 +62,6 @@ def match():
             serverHost,
             result[oppo][0]
         ))
-        print('sss')
         scores1, scores2 = getInfo('{}-vs-{}-first-half{}.log'.format(
             ourTeam,
             oppo,
@@ -74,6 +73,7 @@ def match():
         ))
         result[oppo][0] += 1
         lscore, rscore = scores1[0]+scores2[1], scores1[1]+scores2[0]
+        # todo: Exception: (1054, "Unknown column 'Be' in 'field list'")
         cursor.execute(
             """
                 update automatch set `our total goal` = `our total goal`+{} where `oppo name` = '{}'
@@ -109,7 +109,7 @@ def match():
         print('finished, result is {} : {}'.format(lscore, rscore))
 
         db.commit()
-
+        print('update database!')
         with open('result.txt', 'w') as f:
             print(repr(result), file=f)
 
@@ -117,5 +117,6 @@ def match():
 if __name__ == '__main__':
     try:
         match()
-    except Exception:
+    except Exception as e:
+        print('Exception:', e)
         exit(1)
