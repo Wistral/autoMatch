@@ -1,3 +1,4 @@
+#!/home/robocup3d/anaconda3/bin/python
 from autoPlay import db, cursor
 
 

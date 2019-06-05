@@ -33,12 +33,15 @@ ourTeam = 'HfutEngine2019'
 oppoteams = os.popen('ls -d */')
 oppoteams = [_[:-2] for _ in oppoteams]
 oppoteams.remove('__pycache__')
+oppoteams.remove('HfutEngine2019')
 random.shuffle(oppoteams)
 print('There are', len(oppoteams), 'teams')
 print(*oppoteams, sep='\n')
 
 if 'result.txt' in os.listdir('.'):
-    lines = ''.join([_ for _ in open('result.txt')])
+    f = open('result.txt')
+    lines = f.readline()
+    f.close()
     result = eval(lines)
 else:
     result = {
@@ -47,9 +50,6 @@ else:
     }
 
 serverHost = 'localhost'
-
-# db.execute("insert into student values(95002, '張三', '男', 20, 'CS')")
-# print(*db.fetchall())
 
 
 def match():
@@ -66,11 +66,12 @@ def match():
             ourTeam,
             oppo,
             result[oppo][0]
-        )), getInfo('{}-vs-{}-second-half{}.log'.format(
+        ), 'score'), getInfo('{}-vs-{}-second-half{}.log'.format(
             ourTeam,
             oppo,
             result[oppo][0]
-        ))
+        ), 'score')
+        # scores1, scores2 = (1, 2), (2, 0)
         result[oppo][0] += 1
         lscore, rscore = scores1[0]+scores2[1], scores1[1]+scores2[0]
         # todo: Exception: (1054, "Unknown column 'Be' in 'field list'")
