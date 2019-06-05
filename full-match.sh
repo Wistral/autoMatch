@@ -3,7 +3,7 @@
 if [ $# -lt 2 ];
 then
 echo "usage:
-./$0 team1folder team2folder <serverHost>=localhost"
+$0 team1folder team2folder <serverHost>=localhost"
 exit 1
 fi
 halfTime=355
@@ -12,7 +12,8 @@ CUR_DIR="$( cd "$( dirname "$0" )" && pwd )"
 # start rcssserver3d and block output
 startServer()
 {
-    rcssserver3d --script-path ${CUR_DIR} --init-script-prefix /usr/local/share/rcssserver3d 1>/dev/null 2>/dev/null &
+# --script-path ${CUR_DIR}/ --init-script-prefix /usr/local/share/rcssserver3d
+    rcssserver3d >/dev/null 2>/dev/null &
 }
 
 halfMatch()
@@ -52,11 +53,12 @@ halfMatch()
 # set server host
 if [ "$3" = "" ]
 then
-serverHost=localhost
+serverHost='localhost'
 else
 serverHost=$3
 fi
 
+#startServer
 # start match and save log file
 halfMatch $1 $2 $serverHost
 mv $CUR_DIR/sparkmonitor.log $CUR_DIR/$1-vs-$2-first-half$4.log
