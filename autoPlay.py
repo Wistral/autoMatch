@@ -4,33 +4,22 @@ import random
 import pymysql
 # get field info during gaming with `getInfo`
 from infoParser import getInfo
+from display import db, cursor
 
-# connect to mysql service
-try:
-    db = pymysql.connect(
-        'localhost',
-        'root',
-        'robocup3d',
-        'robocup3d',
-        charset='utf8mb4', port=3306
-    )
-    cursor = db.cursor()
-except Exception as e:
-    print('ERROR when connect to SQL server!')
-    exit(1)
 
 if __name__ == '__main__':
     print('connect to SQL server successfully!')
     ourTeam = 'HfutEngine2019'
-    #oppoteams = []
+    # oppoteams = []
     # get team names
     oppoteams = os.popen('ls -d */')
     oppoteams = [_[:-2] for _ in oppoteams]
     oppoteams.remove('__pycache__')
     oppoteams.remove('HfutEngine2019')
     random.shuffle(oppoteams)
-    #print('There are', len(oppoteams), 'teams')
-    #print(*oppoteams, sep='\n')
+    # print('There are', len(oppoteams), 'teams')
+    # print(*oppoteams, sep='\n')
+    cursor.execute("""select * from automatch;""")
 
     if 'result.txt' in os.listdir('.'):
         f = open('result.txt')
@@ -39,7 +28,7 @@ if __name__ == '__main__':
         result = eval(lines)
     else:
         result = {
-        # teamname: times, win, lose, draw
+            # teamname: times, win, lose, draw
             k: [0, 0, 0, 0] for k in oppoteams
         }
 
@@ -49,7 +38,7 @@ if __name__ == '__main__':
 def match():
     for oppo in oppoteams:
         print('==============================================')
-        print('running task: '+ourTeam+' vs '+oppo+'......')
+        print('running task: ' + ourTeam + ' vs ' + oppo + '......')
         os.system('./full-match.sh {} {} {} {} >/dev/null 2>&1'.format(
             ourTeam,
             oppo,
@@ -67,7 +56,7 @@ def match():
         ), 'score')
         # scores1, scores2 = (1, 2), (2, 0)
         result[oppo][0] += 1
-        lscore, rscore = scores1[0]+scores2[1], scores1[1]+scores2[0]
+        lscore, rscore = scores1[0] + scores2[1], scores1[1] + scores2[0]
         # todo: Exception: (1054, "Unknown column 'Be' in 'field list'")
         cursor.execute(
             """

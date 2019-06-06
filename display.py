@@ -1,14 +1,40 @@
 #!/home/robocup3d/anaconda3/bin/python
-from autoPlay import db, cursor
+import pymysql
 
-
+# connect to mysql service
 try:
-    cursor.execute("""select * from automatch;""")
-    res = cursor.fetchall()
-    print(res)
+    db = pymysql.connect(
+        'localhost',
+        'root',
+        'robocup3d',
+        'robocup3d',
+        charset='utf8mb4', port=3306
+    )
+    cursor = db.cursor()
+except Exception as e:
+    print('ERROR when connect to SQL server!')
+
+    exit(1)
+
+
+def fetch():
+    try:
+        cursor.execute("""select * from automatch;""")
+        res = cursor.fetchall()
+        print(res)
+    except Exception as e:
+        print(e)
+        pass
+    finally:
+        db.close()
+        return res
+
+
+if __name__ == '__main__':
+    data = fetch()
     print("teamname", 'our-total-goals', 'oppo-total-goal',
-          '\twin(rate)', 'lose(rate)', 'draw(rate)', sep='\t')
-    for piece in res:
+              '\twin(rate)', 'lose(rate)', 'draw(rate)', sep='\t')
+    for piece in data:
         total = sum(piece[-3:])
         if total:
             print("{:20}\t{}\t\t{}\t\t{}({:5}%)\t{}({:5}%)\t{}({:5}%)".format(
@@ -26,8 +52,4 @@ try:
                 piece[4], 0,
                 piece[5], 0,
             ))
-except Exception as e:
-    print(e)
-    pass
-finally:
-    db.close()
+
