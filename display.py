@@ -7,11 +7,11 @@ try:
     res = cursor.fetchall()
     print(res)
     print("teamname", 'our-total-goals', 'oppo-total-goal',
-          'win(rate)', 'lose(rate)', 'draw(rate)', sep='\t')
+          '\twin(rate)', 'lose(rate)', 'draw(rate)', sep='\t')
     for piece in res:
         total = sum(piece[-3:])
         if total:
-            print("{:20}\t{}\t\t{}\t\t\t{}({}%)\t\t{}({}%)\t\t{}({}%)".format(
+            print("{:20}\t{}\t\t{}\t\t{}({:5}%)\t{}({:5}%)\t{}({:5}%)".format(
                 piece[0],
                 piece[1], piece[2],
                 piece[3], piece[3]/total*100,
@@ -19,7 +19,7 @@ try:
                 piece[5], piece[5] / total * 100,
         ))
         else:
-            print("{:20}\t{}\t\t{}\t\t\t{}({}%)\t\t{}({}%)\t\t{}({}%)".format(
+            print("{:20}\t{}\t\t{}\t\t{}({:5}%)\t{}({:5}%)\t{}({:5}%)".format(
                 piece[0],
                 piece[1], piece[2],
                 piece[3], 0,
