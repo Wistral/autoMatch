@@ -31,7 +31,7 @@ def fetch():
 
 if __name__ == '__main__':
     data = fetch()
-    print("teamname", 'our-total-goals', 'oppo-total-goal',
+    print("team-name", 'our-total-goals', 'oppo-total-goal',
           '\twin(rate)', 'lose(rate)', 'draw(rate)', sep='\t')
     for piece in data:
         # team name
