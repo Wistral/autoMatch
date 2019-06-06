@@ -4,7 +4,7 @@ import random
 import pymysql
 # get field info during gaming with `getInfo`
 from infoParser import getInfo
-from display import db, cursor
+from display import db, cursor, fetch
 
 
 if __name__ == '__main__':
@@ -20,17 +20,22 @@ if __name__ == '__main__':
     # print('There are', len(oppoteams), 'teams')
     # print(*oppoteams, sep='\n')
     cursor.execute("""select * from automatch;""")
+    data = fetch()
+    result = {
+        meta[0]: meta[1:]
+        for meta in data
+    }
 
-    if 'result.txt' in os.listdir('.'):
-        f = open('result.txt')
-        lines = f.readline()
-        f.close()
-        result = eval(lines)
-    else:
-        result = {
-            # teamname: times, win, lose, draw
-            k: [0, 0, 0, 0] for k in oppoteams
-        }
+    # if 'result.txt' in os.listdir('.'):
+    #     f = open('result.txt')
+    #     lines = f.readline()
+    #     f.close()
+    #     result = eval(lines)
+    # else:
+    #     result = {
+    #         # teamname: times, win, lose, draw
+    #         k: [0, 0, 0, 0] for k in oppoteams
+    #     }
 
     serverHost = 'localhost'
 

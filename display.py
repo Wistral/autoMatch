@@ -13,7 +13,6 @@ try:
     cursor = db.cursor()
 except Exception as e:
     print('ERROR when connect to SQL server!')
-
     exit(1)
 
 
@@ -21,7 +20,7 @@ def fetch():
     try:
         cursor.execute("""select * from automatch;""")
         res = cursor.fetchall()
-        print(res)
+        # print(res)
     except Exception as e:
         print(e)
         pass
@@ -33,17 +32,18 @@ def fetch():
 if __name__ == '__main__':
     data = fetch()
     print("teamname", 'our-total-goals', 'oppo-total-goal',
-              '\twin(rate)', 'lose(rate)', 'draw(rate)', sep='\t')
+          '\twin(rate)', 'lose(rate)', 'draw(rate)', sep='\t')
     for piece in data:
+        # team name
         total = sum(piece[-3:])
         if total:
             print("{:20}\t{}\t\t{}\t\t{}({:5}%)\t{}({:5}%)\t{}({:5}%)".format(
                 piece[0],
                 piece[1], piece[2],
-                piece[3], piece[3]/total*100,
+                piece[3], piece[3] / total * 100,
                 piece[4], piece[4] / total * 100,
                 piece[5], piece[5] / total * 100,
-        ))
+            ))
         else:
             print("{:20}\t{}\t\t{}\t\t{}({:5}%)\t{}({:5}%)\t{}({:5}%)".format(
                 piece[0],
@@ -52,4 +52,3 @@ if __name__ == '__main__':
                 piece[4], 0,
                 piece[5], 0,
             ))
-
