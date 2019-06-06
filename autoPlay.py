@@ -19,37 +19,31 @@ except Exception as e:
     print('ERROR when connect to SQL server!')
     exit(1)
 
-print('connect to SQL server successfully!')
-# db = pymysql.connect(
-#     'localhost',
-#     'root',
-#     'touhou',
-#     'school',
-#     charset='utf8mb4'
-# ).cursor()
-ourTeam = 'HfutEngine2019'
-#oppoteams = []
-# get team names
-oppoteams = os.popen('ls -d */')
-oppoteams = [_[:-2] for _ in oppoteams]
-oppoteams.remove('__pycache__')
-oppoteams.remove('HfutEngine2019')
-random.shuffle(oppoteams)
-print('There are', len(oppoteams), 'teams')
-print(*oppoteams, sep='\n')
+if __name__ == '__main__':
+    print('connect to SQL server successfully!')
+    ourTeam = 'HfutEngine2019'
+    #oppoteams = []
+    # get team names
+    oppoteams = os.popen('ls -d */')
+    oppoteams = [_[:-2] for _ in oppoteams]
+    oppoteams.remove('__pycache__')
+    oppoteams.remove('HfutEngine2019')
+    random.shuffle(oppoteams)
+    #print('There are', len(oppoteams), 'teams')
+    #print(*oppoteams, sep='\n')
 
-if 'result.txt' in os.listdir('.'):
-    f = open('result.txt')
-    lines = f.readline()
-    f.close()
-    result = eval(lines)
-else:
-    result = {
-    # teamname: times, win, lose, draw
-        k: [0, 0, 0, 0] for k in oppoteams
-    }
+    if 'result.txt' in os.listdir('.'):
+        f = open('result.txt')
+        lines = f.readline()
+        f.close()
+        result = eval(lines)
+    else:
+        result = {
+        # teamname: times, win, lose, draw
+            k: [0, 0, 0, 0] for k in oppoteams
+        }
 
-serverHost = 'localhost'
+    serverHost = 'localhost'
 
 
 def match():
@@ -117,7 +111,8 @@ def match():
 
 if __name__ == '__main__':
     try:
-        match()
+        while True:
+            match()
     except Exception as e:
         print('Exception:', e)
         exit(1)
