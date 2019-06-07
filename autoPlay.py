@@ -26,17 +26,21 @@ def match():
         print('running task: ' + ourTeam + ' vs ' + oppo + '......')
         for uuid in os.popen('cat /proc/sys/kernel/random/uuid'):
             uuid = uuid[:-1]
-            os.system('./full-match.sh {} {} {} {} {}'.format(codeDir, ourTeam, oppo, serverHost, uuid))
-            first_half_scores, second_half_scores = \
-                getInfo(uuid+'.log'.format(ourTeam, oppo, uuid), 'score'),\
-                getInfo(uuid+'.log'.format(ourTeam, oppo, uuid), 'score')
-            left_score, right_score = first_half_scores[0] + second_half_scores[1], \
-                                      first_half_scores[1] + second_half_scores[0]
-            history.execute(
-                f" insert into `matchHistory`values (now(),'{oppo}',{left_score},{right_score},'{uuid}');")
-            print('Finished, result is {} : {}'.format(left_score, right_score))
-            db.commit()
-            print('Match history updated!')
+            try:
+                # TODO: REPLACE OS.SYSTEM WITH OS.Popen OBJECT
+                os.system('./full-match.sh {} {} {} {} {}'.format(codeDir, ourTeam, oppo, serverHost, uuid))
+                first_half_scores, second_half_scores = \
+                    getInfo(uuid+'.log'.format(ourTeam, oppo, uuid), 'score'),\
+                    getInfo(uuid+'.log'.format(ourTeam, oppo, uuid), 'score')
+                left_score, right_score = first_half_scores[0] + second_half_scores[1], \
+                                          first_half_scores[1] + second_half_scores[0]
+                history.execute(
+                    f" insert into `matchHistory`values (now(),'{oppo}',{left_score},{right_score},'{uuid}');")
+                print('Finished, result is {} : {}'.format(left_score, right_score))
+                db.commit()
+                print('Match history updated!')
+            except KeyboardInterrupt as e:
+                exit(1)
 
 
 if __name__ == '__main__':
