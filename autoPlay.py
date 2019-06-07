@@ -33,7 +33,7 @@ def match():
             left_score, right_score = first_half_scores[0] + second_half_scores[1], \
                                       first_half_scores[1] + second_half_scores[0]
             history.execute(
-                f" insert into `matchHistory`values (now(),'{oppo}',{left_score},'{right_score}');")
+                f" insert into `matchHistory`values (now(),'{oppo}',{left_score},{right_score},'{uuid}');")
             print('Finished, result is {} : {}'.format(left_score, right_score))
             db.commit()
             print('Match history updated!')
