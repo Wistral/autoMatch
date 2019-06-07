@@ -19,6 +19,7 @@ echo "team2 ${TEAM2_DIR}"
 startServer()
 {
     killall -9 rcssserver3d
+    rm sparkmonitor.log
 # --script-path ${CUR_DIR}/ --init-script-prefix /usr/local/share/rcssserver3d
     rcssserver3d --script-path ./rcssserver3d.rb >/dev/null 2>/dev/null &
 }

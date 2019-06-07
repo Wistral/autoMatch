@@ -9,8 +9,6 @@ if __name__ == '__main__':
     print('connect to SQL server successfully!')
     ourTeam = 'HfutEngine2019'
     codeDir = '/home/robocup3d/spark/2019/'
-    # oppo_teams = []
-    # get team names
     oppo_teams = os.popen('ls -d {}*/'.format(codeDir))
     oppo_teams = [_.strip('/\n')[len(codeDir)-1:] for _ in oppo_teams]
     print(oppo_teams)
@@ -35,7 +33,7 @@ def match():
             left_score, right_score = first_half_scores[0] + second_half_scores[1], \
                                       first_half_scores[1] + second_half_scores[0]
             history.execute(
-                """ insert into `matchHistory`values (now(),{},{},'{}');""".format(oppo, left_score, right_score, uuid))
+                f" insert into `matchHistory`values (now(),'{oppo}',{left_score},'{right_score}');")
             print('Finished, result is {} : {}'.format(left_score, right_score))
             db.commit()
             print('Match history updated!')
