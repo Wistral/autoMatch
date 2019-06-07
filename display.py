@@ -3,19 +3,11 @@ import pymysql
 
 # connect to mysql service
 try:
-    # db = pymysql.connect(
-    #     'localhost',
-    #     'root',
-    #     'robocup3d',
-    #     'robocup3d',
-    #     charset='utf8mb4', port=3306
-    # )
-    # cursor = db.cursor()
     db = pymysql.connect(
         '192.168.1.145',
         'root',
         'robocup3d',
-        'matchHistory',
+        'robocup3d',
         charset='utf8mb4', port=3306
     )
     history = db.cursor()
@@ -24,21 +16,45 @@ except Exception as e:
     exit(1)
 
 
-def fetch():
+def raw_data():
     try:
-        history.execute("""select * from automatch;""")
+        history.execute("""select * from matchHistory;""")
         res = history.fetchall()
+        history.execute("""select distinct opp_teamname from matchHistory;""")
+        teams = history.fetchall()
         # print(res)
     except Exception as e:
         print(e)
         pass
     finally:
         db.close()
-        return res
+        return res, teams
 
 
 if __name__ == '__main__':
-    data = fetch()
+    # TODO: UPDATE DATA PROCESS METHOD
+    history, teams = raw_data()
+    # print(history)
+    # print(teams)
+    data = {
+        # "team-name": 'our-total-goals', 'oppo-total-goal', win', 'lose', 'draw'
+        _[0]: [0, 0, 0, 0, 0] for _ in teams
+    }
+
+    for p in history:
+        team = data[p[1]]
+        if p[2] > p[3]:
+            team[2] += 1
+        elif p[2] < p[3]:
+            team[3] += 1
+        else:
+            team[4] += 1
+        team[0] += p[2]
+        team[1] += p[3]
+    data = [
+        [k, *v] for k, v in data.items()
+    ]
+
     print("team-name", 'our-total-goals', 'oppo-total-goal',
           '\twin(rate)', 'lose(rate)', 'draw(rate)', sep='\t')
     for piece in data:
