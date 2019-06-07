@@ -3,7 +3,7 @@
 if [[ $# -lt 2 ]];
 then
 echo "usage:
-$0 team1folder team2folder <serverHost>=localhost identification"
+$0 team1folder team2folder <serverHost>=localhost log-file-uuid"
 exit 1
 fi
 halfTime=355
@@ -64,7 +64,7 @@ fi
 #startServer
 # start match and save log file
 halfMatch $1 $2 ${serverHost}
-mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$1-vs-$2-first-half$4.log
+mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$4.log
 
 halfMatch $2 $1 ${serverHost}
-mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$1-vs-$2-second-half$4.log
+mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$4.log
