@@ -3,14 +3,22 @@ import pymysql
 
 # connect to mysql service
 try:
+    # db = pymysql.connect(
+    #     'localhost',
+    #     'root',
+    #     'robocup3d',
+    #     'robocup3d',
+    #     charset='utf8mb4', port=3306
+    # )
+    # cursor = db.cursor()
     db = pymysql.connect(
-        'localhost',
+        '192.168.1.145',
         'root',
         'robocup3d',
-        'robocup3d',
+        'matchHistory',
         charset='utf8mb4', port=3306
     )
-    cursor = db.cursor()
+    history = db.cursor()
 except Exception as e:
     print('ERROR when connect to SQL server!')
     exit(1)
@@ -18,8 +26,8 @@ except Exception as e:
 
 def fetch():
     try:
-        cursor.execute("""select * from automatch;""")
-        res = cursor.fetchall()
+        history.execute("""select * from automatch;""")
+        res = history.fetchall()
         # print(res)
     except Exception as e:
         print(e)

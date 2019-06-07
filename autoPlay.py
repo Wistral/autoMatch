@@ -1,30 +1,29 @@
 #!/home/robocup3d/anaconda3/bin/python
 import os
 import random
-import pymysql
 # get field info during gaming with `getInfo`
 from infoParser import getInfo
-from display import db, cursor, fetch
+from display import db, history, fetch
 
 
 if __name__ == '__main__':
     print('connect to SQL server successfully!')
     ourTeam = 'HfutEngine2019'
-    # oppoteams = []
+    # oppo_teams = []
     # get team names
-    oppoteams = os.popen('ls -d */')
-    oppoteams = [_[:-2] for _ in oppoteams]
-    oppoteams.remove('__pycache__')
-    oppoteams.remove('HfutEngine2019')
-    random.shuffle(oppoteams)
-    # print('There are', len(oppoteams), 'teams')
-    # print(*oppoteams, sep='\n')
-    cursor.execute("""select * from automatch;""")
-    data = fetch()
-    result = {
-        meta[0]: meta[1:]
-        for meta in data
-    }
+    oppo_teams = os.popen('ls -d */')
+    oppo_teams = [_[:-2] for _ in oppo_teams]
+    oppo_teams.remove('__pycache__')
+    oppo_teams.remove('HfutEngine2019')
+    random.shuffle(oppo_teams)
+    # print('There are', len(oppo_teams), 'teams')
+    # print(*oppo_teams, sep='\n')
+    # cursor.execute("""select * from automatch;""")
+    # data = fetch()
+    # result = {
+    #     meta[0]: meta[1:]
+    #     for meta in data
+    # }
 
     # if 'result.txt' in os.listdir('.'):
     #     f = open('result.txt')
@@ -34,14 +33,14 @@ if __name__ == '__main__':
     # else:
     #     result = {
     #         # teamname: times, win, lose, draw
-    #         k: [0, 0, 0, 0] for k in oppoteams
+    #         k: [0, 0, 0, 0] for k in oppo_teams
     #     }
 
     serverHost = 'localhost'
 
 
 def match():
-    for oppo in oppoteams:
+    for oppo in oppo_teams:
         print('==============================================')
         print('running task: ' + ourTeam + ' vs ' + oppo + '......')
         os.system('./full-match.sh {} {} {} {} >/dev/null 2>&1'.format(
@@ -61,46 +60,16 @@ def match():
         ), 'score')
         # scores1, scores2 = (1, 2), (2, 0)
         result[oppo][0] += 1
-        lscore, rscore = scores1[0] + scores2[1], scores1[1] + scores2[0]
-        # todo: Exception: (1054, "Unknown column 'Be' in 'field list'")
-        cursor.execute(
-            """
-                update automatch set `our total goal` = `our total goal`+{} where `oppo name` = '{}'
-            """.format(lscore, oppo)
-        )
-        cursor.execute(
-            """
-                update automatch set `oppo total goal` = `oppo total goal`+{} where `oppo name` = '{}'
-            """.format(rscore, oppo)
-        )
-        if lscore < rscore:
-            result[oppo][1] += 1
-            cursor.execute(
-                """
-                    update automatch set `lose` = `lose`+1 where `oppo name` = '{}'
-                """.format(oppo)
-            )
-        elif lscore > rscore:
-            result[oppo][2] += 1
-            cursor.execute(
-                """
-                    update automatch set `win` = `win`+1 where `oppo name` = '{}'
-                """.format(oppo)
-            )
-        else:
-            result[oppo][3] += 1
-            cursor.execute(
-                """
-                    update automatch set `draw` = `draw`+1 where `oppo name` = '{}'
-                """.format(oppo)
-            )
+        left_score, right_score = scores1[0] + scores2[1], scores1[1] + scores2[0]
+        history.execute(""" insert into `matchHistory`
+        values (now(),'{}',{},{});""".format(oppo, left_score, right_score))
 
-        print('finished, result is {} : {}'.format(lscore, rscore))
+        print('Finished, result is {} : {}'.format(left_score, right_score))
 
         db.commit()
-        print('update database!')
-        with open('result.txt', 'w') as f:
-            print(repr(result), file=f)
+        print('Match history updated!')
+        # with open('result.txt', 'w') as f:
+        #     print(repr(result), file=f)
 
 
 if __name__ == '__main__':
