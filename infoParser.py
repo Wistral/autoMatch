@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Script for restoring RoboCup 3D sim game from logfile
 # Written by Patrick MacAlpine (patmac@cs.utexas.edu)
