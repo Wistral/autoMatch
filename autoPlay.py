@@ -30,8 +30,8 @@ def match():
                 # TODO: REPLACE OS.SYSTEM WITH OS.Popen OBJECT
                 os.system('./full-match.sh {} {} {} {} {}'.format(codeDir, ourTeam, oppo, serverHost, uuid))
                 first_half_scores, second_half_scores = \
-                    getInfo(uuid+'.log'.format(ourTeam, oppo, uuid), 'score'),\
-                    getInfo(uuid+'.log'.format(ourTeam, oppo, uuid), 'score')
+                    getInfo(uuid+'-first.log'.format(ourTeam, oppo, uuid), 'score'),\
+                    getInfo(uuid+'-second.log'.format(ourTeam, oppo, uuid), 'score')
                 left_score, right_score = first_half_scores[0] + second_half_scores[1], \
                                           first_half_scores[1] + second_half_scores[0]
                 history.execute(
