@@ -3,20 +3,24 @@
 if [[ $# -lt 2 ]];
 then
 echo "usage:
-$0 team1folder team2folder <serverHost>=localhost log-file-uuid"
+$0 codes_folder team1-folder-name team2-folder-name <serverHost>=localhost log-file-uuid"
 exit 1
 fi
 halfTime=355
 
 CUR_DIR="$( cd "$( dirname "$0" )" && pwd )"
-TEAM1_DIR="$( cd "$( dirname "$1" )" && pwd )"
-TEAM2_DIR="$( cd "$( dirname "$2" )" && pwd )"
-
+CODE_DIR="$( cd $1 && pwd )"
+echo $CODE_DIR
+TEAM1_DIR="${CODE_DIR}/$2"
+TEAM2_DIR="${CODE_DIR}/$3"
+echo "team1 ${TEAM1_DIR}"
+echo "team2 ${TEAM2_DIR}"
 # start rcssserver3d and block output
 startServer()
 {
+    killall -9 rcssserver3d
 # --script-path ${CUR_DIR}/ --init-script-prefix /usr/local/share/rcssserver3d
-    rcssserver3d >/dev/null 2>/dev/null &
+    rcssserver3d --script-path ./rcssserver3d.rb >/dev/null 2>/dev/null &
 }
 
 halfMatch()
@@ -54,17 +58,17 @@ halfMatch()
 
 #source match-script.sh
 # set server host
-if [[ "$3" = "" ]]
+if [[ "$4" = "" ]]
 then
 serverHost='localhost'
 else
-serverHost=$3
+serverHost=$4
 fi
 
 #startServer
 # start match and save log file
-halfMatch $1 $2 ${serverHost}
-mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$4.log
+halfMatch ${TEAM1_DIR} ${TEAM2_DIR} ${serverHost}
+mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$5.log
 
-halfMatch $2 $1 ${serverHost}
-mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$4.log
+halfMatch ${TEAM2_DIR} ${TEAM1_DIR} ${serverHost}
+mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$5.log
