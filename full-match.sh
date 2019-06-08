@@ -69,7 +69,7 @@ fi
 #startServer
 # start match and save log file
 halfMatch ${TEAM1_DIR} ${TEAM2_DIR} ${serverHost}
-mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$5-first.log
+mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/log/$5-first.log
 
 halfMatch ${TEAM2_DIR} ${TEAM1_DIR} ${serverHost}
-mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$5-second.log
+mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/log/$5-second.log
