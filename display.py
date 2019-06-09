@@ -61,7 +61,7 @@ if __name__ == '__main__':
         # team name
         total = sum(piece[-3:])
         if total:
-            print("{:20}\t{}\t\t{}\t\t{}({:5}%)\t{}({:5}%)\t{}({:5}%)".format(
+            print("{:20}\t{}\t\t{}\t\t{}({:5.2f}%)\t{}({:5.2f}%)\t{}({:5.2f}%)".format(
                 piece[0],
                 piece[1], piece[2],
                 piece[3], piece[3] / total * 100,
@@ -69,7 +69,7 @@ if __name__ == '__main__':
                 piece[5], piece[5] / total * 100,
             ))
         else:
-            print("{:20}\t{}\t\t{}\t\t{}({:5}%)\t{}({:5}%)\t{}({:5}%)".format(
+            print("{:20}\t{}\t\t{}\t\t{}({:5.2f}%)\t{}({:5.2f}%)\t{}({:5.2f}%)".format(
                 piece[0],
                 piece[1], piece[2],
                 piece[3], 0,
