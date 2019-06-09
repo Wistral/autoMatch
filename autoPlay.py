@@ -32,8 +32,8 @@ def match():
                 first_half_scores, second_half_scores = \
                     getInfo('log/'+uuid+'-first.log'.format(ourTeam, oppo, uuid), 'score'),\
                     getInfo('log/'+uuid+'-second.log'.format(ourTeam, oppo, uuid), 'score')
-                left_score, right_score = first_half_scores[0] + second_half_scores[1], \
-                                          first_half_scores[1] + second_half_scores[0]
+                left_score, right_score = first_half_scores[0] + second_half_scores[0], \
+                                          first_half_scores[1] + second_half_scores[1]
                 history.execute(
                     f" insert into `matchHistory`values (now(),'{oppo}',{left_score},{right_score},'{uuid}');")
                 print('Finished, result is {} : {}'.format(left_score, right_score))
