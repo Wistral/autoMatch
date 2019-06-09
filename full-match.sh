@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [[ $# -lt 2 ]];
 then
@@ -72,5 +72,5 @@ halfMatch ${TEAM1_DIR} ${TEAM2_DIR} ${serverHost}
 mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$5-first.log
 
 halfMatch ${TEAM2_DIR} ${TEAM1_DIR} ${serverHost}
-mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$5-second.log
-mv ${CUR_DIR}/*.log ${CUR_DIR}/log/
+cat ${CUR_DIR}/$5-first.log ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/log/$5.log
+#mv ${CUR_DIR}/*.log ${CUR_DIR}/log/
