@@ -7,7 +7,7 @@ from display import db, history
 
 if __name__ == '__main__':
     print('connect to SQL server successfully!')
-    ourTeam = 'HfutEngine2019'
+    ourTeam = 'hfut3d_code'
     codeDir = '/home/robocup3d/spark/2019/'
     oppo_teams = os.popen('ls -d {}*/'.format(codeDir))
     oppo_teams = [_.strip('/\n')[len(codeDir)-1:] for _ in oppo_teams]
