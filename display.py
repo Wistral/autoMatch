@@ -16,6 +16,11 @@ except Exception as e:
     exit(1)
 
 
+def db_history(sql):
+    history.execute(sql)
+    return history.fetchall()
+
+
 def raw_data():
     try:
         history.execute("""select * from matchHistory;""")
@@ -31,8 +36,13 @@ def raw_data():
         return res, teams
 
 
-if __name__ == '__main__':
-    # TODO: UPDATE DATA PROCESS METHOD
+def pull_file():
+    f = db_history("select log_uuid  from `matchHistory` where our_score < opp_score;")
+    for i in f:
+        print(i[0]+'*.log', end=' ')
+
+
+def show_rate():
     history, teams = raw_data()
     # print(history)
     # print(teams)
@@ -76,3 +86,8 @@ if __name__ == '__main__':
                 piece[4], 0,
                 piece[5], 0,
             ))
+
+
+if __name__ == '__main__':
+    # TODO: UPDATE DATA PROCESS METHOD
+    pull_file()
