@@ -10,7 +10,7 @@ if __name__ == '__main__':
     ourTeam = 'hfut3d_code'
     codeDir = '/home/robocup3d/2019'
     oppo_teams = os.popen(f'ls -d {codeDir}/*/')
-    oppo_teams = [_.strip('/\n')[len(codeDir)-1:] for _ in oppo_teams]
+    oppo_teams = [_.strip('/\n')[len(codeDir):] for _ in oppo_teams]
     print(oppo_teams)
     if '__pycache__' in oppo_teams:
         oppo_teams.remove('__pycache__')
