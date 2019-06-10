@@ -10,16 +10,16 @@ halfTime=355
 
 CUR_DIR="$( cd "$( dirname "$0" )" && pwd )"
 CODE_DIR="$( cd $1 && pwd )"
+echo $CODE_DIR
 TEAM1_DIR="${CODE_DIR}/$2"
 TEAM2_DIR="${CODE_DIR}/$3"
+echo "team1 ${TEAM1_DIR}"
+echo "team2 ${TEAM2_DIR}"
 # start rcssserver3d and block output
 startServer()
 {
     killall -9 rcssserver3d
-    if [[ -f sparkmonitor.log ]]
-    then
     rm sparkmonitor.log
-    fi
 # --script-path ${CUR_DIR}/ --init-script-prefix /usr/local/share/rcssserver3d
     rcssserver3d --script-path ./rcssserver3d.rb >/dev/null 2>/dev/null &
 }
@@ -72,5 +72,4 @@ halfMatch ${TEAM1_DIR} ${TEAM2_DIR} ${serverHost}
 mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$5-first.log
 
 halfMatch ${TEAM2_DIR} ${TEAM1_DIR} ${serverHost}
-cat ${CUR_DIR}/$5-first.log ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/log/$5.log
-#mv ${CUR_DIR}/*.log ${CUR_DIR}/log/
+mv ${CUR_DIR}/sparkmonitor.log ${CUR_DIR}/$5-second.log
