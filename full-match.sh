@@ -32,11 +32,11 @@ halfMatch()
     cd ${CUR_DIR}
     startServer
     sleep 3
-    cd ${TEAM1_DIR}
+    cd $1
     ./start.sh $3
     sleep 3
     cd ${CUR_DIR}
-    cd ${TEAM2_DIR}
+    cd $2
     ./start.sh $3
     sleep 3
     cd ${CUR_DIR}
