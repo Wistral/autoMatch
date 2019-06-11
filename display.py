@@ -89,5 +89,6 @@ def show_rate():
 
 
 if __name__ == '__main__':
-    # TODO: UPDATE DATA PROCESS METHOD
-    pull_file()
+    # # TODO: UPDATE DATA PROCESS METHOD
+    # pull_file()
+    show_rate()
