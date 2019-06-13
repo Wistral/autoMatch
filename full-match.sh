@@ -6,11 +6,10 @@ echo "usage:
 $0 codes_folder team1-folder-name team2-folder-name <serverHost>=localhost log-file-uuid"
 exit 1
 fi
-halfTime=355
 
 CUR_DIR="$( cd "$( dirname "$0" )" && pwd )"
 CODE_DIR="$( cd $1 && pwd )"
-echo $CODE_DIR
+echo ${CODE_DIR}
 TEAM1_DIR="${CODE_DIR}/$2"
 TEAM2_DIR="${CODE_DIR}/$3"
 echo "team1 ${TEAM1_DIR}"
